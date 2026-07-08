@@ -27,7 +27,11 @@ html {
 }
 
 body {
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 12% 8%, rgba(217, 166, 46, 0.07), transparent 40%),
+    radial-gradient(circle at 88% 92%, rgba(47, 75, 124, 0.06), transparent 45%),
+    var(--bg);
+  background-attachment: fixed;
   color: var(--ink);
   min-height: 100vh;
   line-height: 1.6;
@@ -235,7 +239,9 @@ form button[type="submit"]:disabled {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--card);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
   padding: 16px 32px;
   position: sticky;
@@ -271,6 +277,7 @@ form button[type="submit"]:disabled {
 }
 
 .navbar-right a {
+  position: relative;
   color: var(--ink-soft);
   text-decoration: none;
   font-weight: 600;
@@ -278,8 +285,23 @@ form button[type="submit"]:disabled {
   transition: var(--transition);
 }
 
+.navbar-right a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background: var(--pin);
+  transition: width 0.2s ease;
+}
+
 .navbar-right a:hover {
   color: var(--primary);
+}
+
+.navbar-right a:hover::after {
+  width: 100%;
 }
 
 .navbar-right button {
@@ -395,8 +417,20 @@ form button[type="submit"]:disabled {
 
 .page-container > p {
   color: var(--ink-soft);
-  padding: 40px 0;
   text-align: center;
+  padding: 56px 24px;
+  background: var(--card);
+  border: 1.5px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  font-size: 14.5px;
+}
+
+.page-container > p::before {
+  content: "\1F4CC";
+  display: block;
+  font-size: 22px;
+  margin-bottom: 10px;
+  opacity: 0.7;
 }
 
 /* =========================================================
@@ -404,15 +438,33 @@ form button[type="submit"]:disabled {
 ========================================================= */
 
 .notice-form {
+  position: relative;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
-  padding: 24px;
-  margin-bottom: 40px;
+  padding: 30px 24px 24px;
+  margin-bottom: 44px;
   display: flex;
   flex-direction: column;
   gap: 14px;
+}
+
+.notice-form::before {
+  content: "\2022 Post a notice";
+  position: absolute;
+  top: -12px;
+  left: 22px;
+  background: var(--pin);
+  color: #4a3607;
+  font-family: "Manrope", sans-serif;
+  font-weight: 700;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-sm);
 }
 
 .notice-form input,
@@ -463,7 +515,26 @@ form button[type="submit"]:disabled {
   box-shadow: var(--shadow-sm);
   padding: 22px 20px 18px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: pinIn 0.4s ease backwards;
 }
+
+@keyframes pinIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.notice-list .notice-card:nth-child(1) { animation-delay: 0.02s; }
+.notice-list .notice-card:nth-child(2) { animation-delay: 0.07s; }
+.notice-list .notice-card:nth-child(3) { animation-delay: 0.12s; }
+.notice-list .notice-card:nth-child(4) { animation-delay: 0.17s; }
+.notice-list .notice-card:nth-child(5) { animation-delay: 0.22s; }
+.notice-list .notice-card:nth-child(n+6) { animation-delay: 0.26s; }
 
 .notice-card::before {
   content: "";
@@ -544,13 +615,10 @@ form button[type="submit"]:disabled {
   align-items: center;
   justify-content: center;
   padding: 32px;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(217, 166, 46, 0.08), transparent 45%),
-    radial-gradient(circle at 80% 80%, rgba(47, 75, 124, 0.06), transparent 45%),
-    var(--bg);
 }
 
 .auth-form {
+  position: relative;
   width: 100%;
   max-width: 400px;
   background: var(--card);
@@ -560,6 +628,17 @@ form button[type="submit"]:disabled {
   padding: 40px 36px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+}
+
+.auth-form::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--pin) 100%);
 }
 
 .auth-form h2 {
@@ -593,6 +672,7 @@ form button[type="submit"]:disabled {
 ========================================================= */
 
 .profile-form {
+  position: relative;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -601,6 +681,17 @@ form button[type="submit"]:disabled {
   margin-top: 24px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+}
+
+.profile-form::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--pin) 100%);
 }
 
 .profile-form button[type="submit"] {
